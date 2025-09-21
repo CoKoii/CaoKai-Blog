@@ -1,0 +1,140 @@
+.Login {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 48px 24px;
+
+  > .form {
+    position: relative;
+    z-index: 1;
+    width: min(420px, 100%);
+    padding: 56px 48px 48px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 28px 60px rgba(64, 84, 178, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    min-height: 520px;
+
+    @supports (height: 100dvh) {
+      min-height: clamp(500px, 60dvh, 560px);
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 900;
+      color: #2f365f;
+      text-align: center;
+    }
+
+    .desc {
+      font-size: 15px;
+      letter-spacing: 2px;
+      line-height: 1.6;
+      color: rgba(47, 54, 95, 0.7);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+
+      .account,
+      .password {
+        width: 100%;
+
+        input {
+          width: 100%;
+          padding: 14px 18px;
+          border-radius: 14px;
+          border: 1px solid rgba(86, 108, 214, 0.2);
+          background: rgba(255, 255, 255, 0.9);
+          font-size: 15px;
+          color: #1f233b;
+          transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease;
+
+          &::placeholder {
+            color: rgba(47, 54, 95, 0.4);
+          }
+
+          &:focus {
+            outline: none;
+            border-color: rgba(76, 99, 255, 0.8);
+            box-shadow: 0 0 0 4px rgba(120, 148, 255, 0.2);
+            background: #fff;
+          }
+        }
+      }
+
+      .submit {
+        width: 100%;
+
+        button {
+          width: 100%;
+          padding: 14px 18px;
+          border: none;
+          border-radius: 14px;
+          background: linear-gradient(135deg, #4c63ff, #34b1ff);
+          color: #fff;
+          font-size: 16px;
+          font-weight: 700;
+          letter-spacing: 1px;
+          cursor: pointer;
+          box-shadow: 0 12px 26px rgba(76, 99, 255, 0.28);
+          transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(76, 99, 255, 0.34);
+          }
+
+          &:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(76, 99, 255, 0.28);
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 520px) {
+    padding: 32px 16px;
+
+    > .form {
+      padding: 48px 32px 36px;
+      gap: 24px;
+      min-height: 480px;
+
+      .title {
+        font-size: 30px;
+      }
+
+      .desc {
+        font-size: 14px;
+        letter-spacing: 1.4px;
+      }
+
+      .form {
+        gap: 18px;
+
+        .submit button {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
