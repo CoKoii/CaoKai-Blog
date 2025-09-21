@@ -1,0 +1,24 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+body {
+  font-family:
+    'LXGW',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Noto Sans',
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+}
+body,
+h1 {
+  margin: 0;
+}
