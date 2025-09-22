@@ -6,7 +6,11 @@ html {
 *::after {
   box-sizing: inherit;
 }
-body {
+body,
+input,
+button,
+textarea,
+select {
   font-family:
     'LXGW',
     system-ui,
