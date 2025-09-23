@@ -12,5 +12,3 @@
 ![Last Commit](https://img.shields.io/github/last-commit/CoKoii/CaoKai-Blog)
 ![Issues](https://img.shields.io/github/issues/CoKoii/CaoKai-Blog)
 ![Visitor Count](https://visitor-badge.laobi.icu/badge?page_id=CoKoii.CaoKai-Blog)
-[![CoKoii's GitHub stats](https://github-readme-stats.vercel.app/api?username=CoKoii&show_icons=true&theme=radical)](https://github.com/anuraghazra/github-readme-stats)
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=CoKoii&layout=compact)
