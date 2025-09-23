@@ -6,6 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  img {
+    -webkit-user-drag: none;
+  }
 
   // 左上角logo
   .logo {
@@ -15,5 +19,127 @@
     left: 20px;
     font-size: 20px;
     font-weight: bold;
+  }
+  //主体区-左右排版
+  .content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    // 左边的欢迎区
+    .text {
+      display: flex;
+      flex-direction: column;
+      // 欢迎语
+      h1 {
+        font-size: 40px;
+        font-weight: 900;
+      }
+      // 副标题
+      h2 {
+        font-size: 24px;
+        font-weight: 500;
+        margin-top: 15px;
+        font-weight: 900;
+        letter-spacing: 2px;
+      }
+      .text-img {
+        display: flex;
+        align-items: center;
+        //提示语
+        .alert {
+          margin-top: 50px;
+          font-size: 16px;
+          line-height: 2;
+          opacity: 0.8;
+        }
+        img {
+          width: 320px;
+        }
+      }
+    }
+  }
+  // 登陆表单
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 24px;
+    .dlzh {
+      font-weight: 900;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+    input {
+      outline: none;
+      border: none;
+      padding: 14px 20px;
+      min-width: 100%;
+      border-radius: 5px;
+      background-color: #ebebeb;
+      &::placeholder {
+        font-size: 14px;
+        opacity: 0.6;
+      }
+      &:focus {
+        outline: none;
+        outline: 2px solid #bcbcbc;
+      }
+      caret-color: rgba(51, 51, 51, 0.3);
+    }
+    .qr {
+      width: 100%;
+      text-align: end;
+      font-size: 13px;
+      opacity: 0.6;
+      margin: -8px 0;
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 14px 20px;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      background-color: #000;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .line {
+      text-align: center;
+      width: 100%;
+      margin-top: 24px;
+      opacity: 0.4;
+      &::before {
+        content: '———————';
+        margin-right: 10px;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0), #000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0.6;
+      }
+      &::after {
+        content: '———————';
+        margin-left: 10px;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0), #000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0.6;
+      }
+    }
+  }
+}
+@media (max-width: 1008px) {
+  .Login {
+    .content {
+      flex-direction: column;
+      .text {
+        display: none;
+      }
+    }
   }
 }
