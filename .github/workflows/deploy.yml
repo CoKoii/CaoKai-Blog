@@ -2,8 +2,8 @@ name: Deploy web to GitHub Pages
 
 on:
   push:
-    branches: [main] # ⚠️ 确认你的默认分支是 main，如果是 master 改这里
-  workflow_dispatch: # 手动触发
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,10 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 安装 pnpm（推荐用官方 action）
       - uses: pnpm/action-setup@v4
         with:
-          version: 9 # 换成你项目用的 pnpm 版本
+          version: 9
 
       # 配置 Node + 缓存
       - uses: actions/setup-node@v4
@@ -41,7 +40,6 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      # 可选：history 路由防 404（用 hash 路由可以删掉这步）
       - name: Ensure SPA fallback
         run: |
           if [ -f dist/index.html ]; then
