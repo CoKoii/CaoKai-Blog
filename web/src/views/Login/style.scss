@@ -16,28 +16,4 @@
     font-size: 20px;
     font-weight: bold;
   }
-  // 登陆表单
-  .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    .title {
-      font-size: 35px;
-      font-weight: 900;
-    }
-    .desc {
-      opacity: 0.6;
-      font-size: 16px;
-      letter-spacing: 2px;
-    }
-    .account {
-      width: 100%;
-      display: flex;
-      input {
-        width: 100%;
-      }
-    }
-  }
 }
