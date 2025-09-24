@@ -11,6 +11,9 @@ export const pwaConfig: Partial<VitePWAOptions> = {
   injectRegister: 'auto', // 自动在生产环境注册 SW
   registerType: 'autoUpdate', // 有新构建就自动更新 SW
   workbox: {
+    // Workbox 在 production 模式下会走 Terser 压缩，这会触发 rollup-terser 的 renderChunk 崩溃
+    // 导致 sw.js 根本生成不了。切到 development 可以跳过压缩直接生成文件。
+    mode: 'development',
     // 扩展预缓存模式，包含更多文件类型
     globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,ttf,eot}'],
     // 排除一些不需要缓存的文件
