@@ -1,7 +1,7 @@
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 
 // 项目常量
-export const PROJECT_BASE = '/CaoKai-Blog/'
+export const PROJECT_BASE = '/'
 export const CACHE_MAX_ENTRIES = 80
 export const CACHE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365 // 1年
 
