@@ -18,7 +18,7 @@ export const pwaConfig: Partial<VitePWAOptions> = {
     runtimeCaching: [
       {
         // 缓存静态资源：JS、CSS、字体文件
-        urlPattern: ({ request }) =>
+        urlPattern: ({ request }: { request: Request }) =>
           request.destination === 'script' ||
           request.destination === 'style' ||
           request.destination === 'font',
@@ -29,17 +29,11 @@ export const pwaConfig: Partial<VitePWAOptions> = {
             maxEntries: CACHE_MAX_ENTRIES,
             maxAgeSeconds: CACHE_MAX_AGE_SECONDS,
           },
-          cacheKeyWillBeUsed: async ({ request }) => {
-            // 去除查询参数以提高缓存命中率
-            const url = new URL(request.url)
-            url.search = ''
-            return url.href
-          },
         },
       },
       {
         // 缓存图片资源
-        urlPattern: ({ request }) => request.destination === 'image',
+        urlPattern: ({ request }: { request: Request }) => request.destination === 'image',
         handler: 'CacheFirst',
         options: {
           cacheName: 'images-v1',
