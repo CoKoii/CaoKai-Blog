@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd web && pnpm run build",
+  "installCommand": "cd web && npm install",
+  "buildCommand": "cd web && npm run build",
   "outputDirectory": "web/dist",
-  "installCommand": "cd web && pnpm install",
   "framework": null,
   "rewrites": [
     {
