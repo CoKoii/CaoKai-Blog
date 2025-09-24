@@ -11,14 +11,62 @@ export const pwaConfig: Partial<VitePWAOptions> = {
   injectRegister: 'auto', // 自动在生产环境注册 SW
   registerType: 'autoUpdate', // 有新构建就自动更新 SW
   workbox: {
-    globPatterns: ['**/*.{js,css,woff2}'], // 让这些类型可被预缓存
+    // 扩展预缓存模式，包含更多文件类型
+    globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,ttf,eot}'],
+    // 排除一些不需要缓存的文件
+    globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js'],
     runtimeCaching: [
       {
-        // 仅缓存构建产物：/CaoKai-Blog/assets/*.js|css|woff2
-        urlPattern: new RegExp(`${PROJECT_BASE}assets/.*\\.(?:js|css|woff2)$`),
-        handler: 'StaleWhileRevalidate', // 先用缓存，再后台拉新
+        // 缓存静态资源：JS、CSS、字体文件
+        urlPattern: ({ request }) =>
+          request.destination === 'script' ||
+          request.destination === 'style' ||
+          request.destination === 'font',
+        handler: 'CacheFirst', // 优先使用缓存
         options: {
-          cacheName: 'assets-swr-v1',
+          cacheName: 'static-assets-v1',
+          expiration: {
+            maxEntries: CACHE_MAX_ENTRIES,
+            maxAgeSeconds: CACHE_MAX_AGE_SECONDS,
+          },
+          cacheKeyWillBeUsed: async ({ request }) => {
+            // 去除查询参数以提高缓存命中率
+            const url = new URL(request.url)
+            url.search = ''
+            return url.href
+          },
+        },
+      },
+      {
+        // 缓存图片资源
+        urlPattern: ({ request }) => request.destination === 'image',
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'images-v1',
+          expiration: {
+            maxEntries: 60,
+            maxAgeSeconds: CACHE_MAX_AGE_SECONDS,
+          },
+        },
+      },
+      {
+        // 缓存 GitHub 静态资源
+        urlPattern: /^https:\/\/.*\.githubusercontent\.com\//,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'github-assets-v1',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: CACHE_MAX_AGE_SECONDS,
+          },
+        },
+      },
+      {
+        // 缓存项目特定的资源路径
+        urlPattern: new RegExp(`${PROJECT_BASE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}assets/.*`),
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'project-assets-v1',
           expiration: {
             maxEntries: CACHE_MAX_ENTRIES,
             maxAgeSeconds: CACHE_MAX_AGE_SECONDS,
@@ -26,5 +74,11 @@ export const pwaConfig: Partial<VitePWAOptions> = {
         },
       },
     ],
+    // 清理过期的缓存
+    cleanupOutdatedCaches: true,
+    // 跳过等待，立即激活新的 Service Worker
+    skipWaiting: true,
+    // 立即控制客户端
+    clientsClaim: true,
   },
 }
