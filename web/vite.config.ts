@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     open: true,
   },
-  base: 'CaoKai-Blog',
+  base: '/CaoKai-Blog/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
