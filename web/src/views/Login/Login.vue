@@ -1,4 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: "Cao Kai's Blog - 登陆页",
+  meta: [
+    {
+      name: 'description',
+      content: 'Cao Kai 的个人博客，分享前端、全栈和 AI 学习笔记。',
+    },
+    {
+      name: 'keywords',
+      content: '前端, 全栈, Vue, NestJS, AI, 博客',
+    },
+  ],
+})
+</script>
 
 <template>
   <div class="Login">
