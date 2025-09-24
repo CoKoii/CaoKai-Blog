@@ -1,12 +1,17 @@
 import './styles/main.scss'
-import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { ViteSSG } from 'vite-ssg'
 
 import App from './App.vue'
-import router from './router'
-const app = createApp(App)
+import { routes } from './router'
 
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+export const createApp = ViteSSG(
+  App,
+  {
+    routes,
+    base: import.meta.env.BASE_URL,
+  },
+  ({ app }) => {
+    app.use(createPinia())
+  },
+)
