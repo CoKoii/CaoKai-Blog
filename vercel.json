@@ -1,7 +1,7 @@
 {
-  "buildCommand": "ls -la && cd web && ls -la && pnpm run build",
+  "buildCommand": "cd web && pnpm run build",
   "outputDirectory": "web/dist",
-  "installCommand": "ls -la && cd web && ls -la && pnpm install",
+  "installCommand": "cd web && pnpm install --frozen-lockfile",
   "framework": null,
   "rewrites": [
     {
