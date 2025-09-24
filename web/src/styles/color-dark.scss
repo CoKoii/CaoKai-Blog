@@ -1,3 +1,13 @@
-:root[data-theme='dark'] {
-  --color-0: #000000;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #ffffff;
+    --color-black: #fff;
+    --pg-bg-color: #11161a;
+    --input-bg-color: #303030;
+    --input-outline-color: #bcbcbc;
+    --input-caret-color: rgba(255, 255, 255, 0.6);
+    --button-bg-color: #ffffff;
+    --button-text-color: #000;
+    --filter-invert: invert(1);
+  }
 }

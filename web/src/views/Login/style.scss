@@ -1,7 +1,7 @@
 .Login {
   width: 100%;
   height: 100%;
-  background-color: #f9f9f9;
+  background-color: var(--pg-bg-color);
   position: relative;
   display: flex;
   justify-content: center;
@@ -55,6 +55,7 @@
         }
         img {
           width: 320px;
+          filter: var(--filter-invert);
         }
       }
     }
@@ -76,16 +77,18 @@
       padding: 14px 20px;
       min-width: 100%;
       border-radius: 5px;
-      background-color: #ebebeb;
+      color: var(--text-color);
+      background-color: var(--input-bg-color);
       &::placeholder {
         font-size: 14px;
-        opacity: 0.6;
+        opacity: 0.8;
+        letter-spacing: 1.5px;
       }
       &:focus {
         outline: none;
-        outline: 2px solid #bcbcbc;
+        outline: 2px solid var(--input-outline-color);
       }
-      caret-color: rgba(51, 51, 51, 0.3);
+      caret-color: var(--input-caret-color);
     }
     .qr {
       width: 100%;
@@ -100,12 +103,15 @@
       width: 100%;
       border-radius: 5px;
       border: none;
-      background-color: #000;
-      color: #fff;
+      background-color: var(--button-bg-color);
+      color: var(--button-text-color);
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 900;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: opacity 0.2s ease;
+      &:hover {
+        opacity: 0.9;
+      }
     }
     .line {
       text-align: center;
@@ -115,7 +121,7 @@
       &::before {
         content: '———————';
         margin-right: 10px;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0), #000);
+        background: linear-gradient(to right, transparent, var(--color-black));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -124,7 +130,7 @@
       &::after {
         content: '———————';
         margin-left: 10px;
-        background: linear-gradient(to left, rgba(0, 0, 0, 0), #000);
+        background: linear-gradient(to left, transparent, var(--color-black));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
