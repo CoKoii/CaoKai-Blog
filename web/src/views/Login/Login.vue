@@ -17,8 +17,10 @@
       </div>
       <div class="form">
         <div class="dlzh">登陆账号</div>
-        <input type="text" placeholder="请输入你的账号名称或邮箱" />
-        <input type="password" placeholder="输入你的密码" />
+        <form style="display: contents">
+          <input type="text" placeholder="请输入你的账号名称或邮箱" autocomplete="username" />
+          <input type="password" placeholder="输入你的密码" autocomplete="current-password" />
+        </form>
         <p class="qr">扫码登陆</p>
         <button>登录</button>
         <div class="line">我见青山多妩媚</div>
