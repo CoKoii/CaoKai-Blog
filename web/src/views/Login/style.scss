@@ -48,7 +48,7 @@
         align-items: center;
         //提示语
         .alert {
-          margin-top: 50px;
+          margin-top: 120px;
           font-size: 16px;
           line-height: 2;
           opacity: 0.8;
@@ -90,6 +90,7 @@
       caret-color: var(--input-caret-color);
     }
     .qr {
+      cursor: pointer;
       width: 100%;
       text-align: end;
       font-size: 13px;
