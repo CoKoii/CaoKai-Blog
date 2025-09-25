@@ -1,7 +1,6 @@
 import './styles/main.scss'
 import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg'
-import { createHead } from '@vueuse/head'
 import App from './App.vue'
 import { routes } from './router'
 
@@ -13,6 +12,5 @@ export const createApp = ViteSSG(
   },
   ({ app }) => {
     app.use(createPinia())
-    app.use(createHead())
   },
 )

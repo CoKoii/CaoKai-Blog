@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
-
 useHead({
   title: "Cao Kai's Blog - 登陆页",
   meta: [
@@ -33,7 +32,8 @@ useHead({
             alt="写作"
             fetchpriority="high"
             decoding="async"
-            width="320px"
+            width="320"
+            height="320"
           />
         </div>
       </div>
