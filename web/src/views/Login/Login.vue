@@ -29,7 +29,7 @@ useHead({
             在这里你可以轻松编辑和发布文章
           </p>
           <img
-            src="../../assets/imgs/write.svg"
+            src="../../assets/imgs/write.webp"
             alt="写作"
             fetchpriority="high"
             decoding="async"
