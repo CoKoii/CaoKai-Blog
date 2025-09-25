@@ -33,6 +33,7 @@ useHead({
             fetchpriority="high"
             decoding="async"
             width="320"
+            loading="lazy"
             height="320"
           />
         </div>
