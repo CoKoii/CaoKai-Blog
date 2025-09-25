@@ -16,11 +16,7 @@ useHead({
 </script>
 
 <template>
-  <div class="Layout">
-    <h1 style="color: black">6666</h1>
-    <img v-lazy-img="'https://w.wallhaven.cc/full/8g/wallhaven-8go6ro.png'" height="700" />
-    <h1 style="color: black">6666</h1>
-  </div>
+  <div class="Layout"></div>
 </template>
 
 <style scoped lang="scss"></style>
