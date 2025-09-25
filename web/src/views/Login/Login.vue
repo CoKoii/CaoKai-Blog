@@ -2142,7 +2142,12 @@ useHead({
       <div class="form">
         <div class="dlzh">登陆账号</div>
         <form style="display: contents">
-          <input type="text" placeholder="请输入你的账号名称或邮箱" autocomplete="username" />
+          <input
+            type="text"
+            placeholder="请输入你的账号名称或邮箱"
+            autocomplete="username"
+            autofocus
+          />
           <input type="password" placeholder="输入你的密码" autocomplete="current-password" />
         </form>
         <p class="qr">扫码登陆</p>

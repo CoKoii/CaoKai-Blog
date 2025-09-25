@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
 import { routes } from './router'
+import { vLazyImg } from './directives/v-lazy-img'
 
 export const createApp = ViteSSG(
   App,
@@ -12,5 +13,6 @@ export const createApp = ViteSSG(
   },
   ({ app }) => {
     app.use(createPinia())
+    app.directive('lazy-img', vLazyImg)
   },
 )
