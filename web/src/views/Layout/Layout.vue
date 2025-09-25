@@ -18,7 +18,7 @@ useHead({
 <template>
   <div class="Layout">
     <h1 style="color: black">6666</h1>
-    <img v-lazy-img="'https://w.wallhaven.cc/full/8g/wallhaven-8go6ro.png'" width="700" alt="" />
+    <img v-lazy-img="'https://w.wallhaven.cc/full/8g/wallhaven-8go6ro.png'" height="700" />
     <h1 style="color: black">6666</h1>
   </div>
 </template>
