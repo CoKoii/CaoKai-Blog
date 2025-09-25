@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
 useHead({
-  title: "Cao Kai's Blog - 后台管理系统",
+  title: '后台管理系统',
   meta: [
     {
       name: 'description',

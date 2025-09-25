@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
 useHead({
-  title: "Cao Kai's Blog - 登陆页",
+  title: '登陆页',
   meta: [
     {
       name: 'description',
@@ -17,7 +17,7 @@ useHead({
 
 <template>
   <div class="Login">
-    <h1 class="logo">Cao Kai's Blog</h1>
+    <router-link to="/" class="logo">Cao Kai's Blog</router-link>
     <div class="content">
       <div class="text">
         <h1>嘿 👋</h1>
