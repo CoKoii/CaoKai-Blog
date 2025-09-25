@@ -1,11 +1,5 @@
 User-agent: *
 Allow: /
 
-# 允许搜索引擎索引整个网站
-# 如果您希望禁止某些页面被爬取，可以添加 Disallow 规则
-# 例如：
-# Disallow: /admin/
-# Disallow: /private/
-
 # 指定网站地图位置（如果您有的话）
-# Sitemap: https://cao-kai-blog.vercel.app/sitemap.xml
+# Sitemap: https://www.caoki.cn/sitemap.xml
