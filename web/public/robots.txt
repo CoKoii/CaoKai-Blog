@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # 指定网站地图位置（如果您有的话）
-# Sitemap: https://www.caoki.cn/sitemap.xml
+# Sitemap: https://blog.caoki.cn/sitemap.xml
