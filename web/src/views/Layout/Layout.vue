@@ -8,7 +8,7 @@ const hideAside = () => {
   }
 }
 const asideNoArea = () => {
-  if (LayoutRef.value) {
+  if (LayoutRef.value && !LayoutRef.value.classList.contains('hide-aside')) {
     LayoutRef.value.classList.toggle('aside-no-area')
   }
 }

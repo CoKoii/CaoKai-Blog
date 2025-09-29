@@ -14,18 +14,15 @@
 .App {
   .fade-enter-active,
   .fade-leave-active {
-    transition:
-      opacity 0.2s ease,
-      filter 0.2s ease,
-      transform 0.2s ease;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
   }
   .fade-enter-from {
     opacity: 0;
   }
   .fade-leave-to {
     opacity: 0;
-    filter: blur(10px);
-    transform: scale(1.2);
   }
 }
 </style>

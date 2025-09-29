@@ -56,6 +56,12 @@
 }
 .hide-aside {
   --aside-width: 0px;
+  .main {
+    margin-left: 0px;
+    .nav {
+      left: 0px;
+    }
+  }
 }
 @media (max-width: 768px) {
   .Layout {
