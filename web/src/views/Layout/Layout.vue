@@ -24,6 +24,7 @@ defineOptions({
 
 <template>
   <div class="Layout" ref="Layout">
+    <div class="mask" @click="hideAside"></div>
     <div class="buttons">
       <button @click="hideAside">隐藏侧边栏</button>
       <button @click="asideNoArea">侧边栏不占位</button>
