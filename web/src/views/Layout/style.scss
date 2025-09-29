@@ -21,8 +21,8 @@
       opacity 0.3s ease,
       visibility 0.3s ease;
   }
-  --aside-width: 245px;
-  --nav-height: 88px;
+  --aside-width: 244px;
+  --nav-height: 86px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -36,25 +36,42 @@
     width: var(--aside-width);
     flex: 0 0 var(--aside-width);
     transition: width 0.3s ease;
-    background-color: rgb(255, 0, 0);
     z-index: 1000;
+    border-right: 1px solid #eee;
+    background-color: #fff;
   }
   .main {
     flex: 1;
     margin-left: var(--aside-width);
     transition: margin-left 0.3s ease;
+
     .nav {
       height: var(--nav-height);
-      background-color: green;
       position: fixed;
       left: var(--aside-width);
       transition: left 0.3s ease;
+      background-color: #fff;
       top: 0;
       right: 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+
+      .top {
+        flex: 50;
+        border-bottom: 1px solid #eee;
+        transition: all 0.3s ease;
+      }
+      .bottom {
+        flex: 33;
+        transition: all 0.3s ease;
+      }
     }
     .content {
       margin-top: var(--nav-height);
       padding: 24px;
+      transition: all 0.3s ease;
     }
   }
 }
@@ -75,6 +92,18 @@
     margin-left: 0px;
     .nav {
       left: 0px;
+    }
+  }
+}
+.nav-collapse {
+  --nav-height: 38px;
+  .main {
+    .nav {
+      height: var(--nav-height);
+      .top {
+        flex: 0;
+        border-bottom: 1px solid transparent;
+      }
     }
   }
 }
