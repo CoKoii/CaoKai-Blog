@@ -71,7 +71,7 @@ const updateSidebarWidth = (width: number) => {
 
 const updateNavHeight = (topHeight: number) => {
   setCSSProperty('--nav-top-height', topHeight)
-  setCSSProperty('--nav-top-border-opacity', topHeight > 0 ? 1 : 0)
+  setCSSProperty('--nav-top-border-width', topHeight > 0 ? '1px' : '0px')
 
   const totalHeight = topHeight + 36
   setCSSProperty('--nav-height', totalHeight)
@@ -161,9 +161,7 @@ const toggleFullScreen = () => {
     if (!config.Sidebar.isHidden) {
       updateSidebarWidth(getSidebarWidth())
     }
-    if (!config.Nav.isTopHidden) {
-      updateNavHeight(config.Nav.topDefaultHeight)
-    }
+    updateNavHeight(config.Nav.topDefaultHeight)
   } else {
     updateSidebarWidth(0)
     updateNavHeight(0)

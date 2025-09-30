@@ -2,7 +2,8 @@
   --aside-width: 244px;
   --nav-height: 86px;
   --nav-top-height: 50px;
-  --nav-top-border-opacity: 1;
+  --nav-top-border-width: 1px;
+  --nav-top-border-color: #eee;
   --main-margin-left: var(--aside-width);
 
   width: 100%;
@@ -72,7 +73,7 @@
       .top {
         height: var(--nav-top-height);
         flex: none;
-        border-bottom: 1px solid rgba(238, 238, 238, var(--nav-top-border-opacity));
+        border-bottom: var(--nav-top-border-width, 1px) solid var(--nav-top-border-color, #eee);
         transition: all 0.3s ease;
       }
 
