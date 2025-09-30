@@ -1,10 +1,26 @@
+/** * Layout 组件 - 响应式布局管理器 * * 功能特性： * - 响应式侧边栏（可隐藏、收缩、无占位） * -
+响应式导航栏 * - 全屏模式（支持状态恢复） * - 移动端适配 * - 状态持久化 */
+
 <script setup lang="ts">
-import { computed, reactive, ref, useSlots, useTemplateRef, onMounted, onUnmounted, watch } from 'vue'
+import {
+  computed,
+  reactive,
+  ref,
+  useSlots,
+  useTemplateRef,
+  onMounted,
+  onUnmounted,
+  watch,
+} from 'vue'
 import {
   NAV_BOTTOM_STATIC_HEIGHT,
   applyLayoutStatePatch,
   createLayoutState,
   getPersistableLayoutState,
+  createLayoutSnapshot,
+  restoreFromSnapshot,
+  shouldCreateSnapshot,
+  shouldRestoreFromSnapshot,
   layoutProps,
   type LayoutActions,
   type LayoutEmits,
@@ -97,10 +113,7 @@ const applySidebarNoSpace = (active: boolean, options: ApplyOptions = {}) => {
   }
 }
 
-const applySidebarCollapsed = (
-  collapsed: boolean,
-  options: ApplySidebarCollapsedOptions = {},
-) => {
+const applySidebarCollapsed = (collapsed: boolean, options: ApplySidebarCollapsedOptions = {}) => {
   const changed = collapsed !== config.Sidebar.isCollapsed
 
   if (options.enforceVisible && config.Sidebar.isHidden) {
@@ -122,12 +135,28 @@ const applySidebarCollapsed = (
 const applyFullScreen = (full: boolean, options: ApplyOptions = {}) => {
   const changed = full !== config.isFullScreen
 
+  if (changed) {
+    if (shouldCreateSnapshot(config.isFullScreen, full)) {
+      // 进入全屏模式：保存当前状态快照
+      config.fullScreenSnapshot = createLayoutSnapshot(config)
+    }
+
+    if (shouldRestoreFromSnapshot(config.isFullScreen, full)) {
+      // 退出全屏模式：从快照恢复状态
+      restoreFromSnapshot(config, config.fullScreenSnapshot)
+      config.fullScreenSnapshot = null
+    }
+  }
+
   if (full) {
+    // 进入全屏：隐藏侧边栏和导航栏
     updateSidebarWidth(0)
     updateNavHeight(0)
   } else {
-    updateSidebarWidth(config.Sidebar.isHidden ? 0 : getSidebarWidth())
-    updateNavHeight(config.Nav.topDefaultHeight)
+    // 退出全屏：恢复到快照状态或默认状态
+    const targetSidebarWidth = config.Sidebar.isHidden ? 0 : getSidebarWidth()
+    updateSidebarWidth(targetSidebarWidth)
+    updateNavHeight(config.Nav.topCurrentHeight)
   }
 
   config.isFullScreen = full
@@ -253,15 +282,21 @@ const loadPersistedState = (): LayoutStateOverrides | null => {
 const persistableSnapshot = computed(() => getPersistableLayoutState(config))
 
 const syncControlledModelsFromState = () => {
-  controlledKeys.forEach((key) => {
-    const propValue = props[key]
-    if (propValue === undefined) return
-
-    const currentValue = controlledDescriptors[key].current()
-    if (propValue !== currentValue) {
-      emit(controlledDescriptors[key].event, currentValue)
-    }
-  })
+  if (props.sidebarHidden !== undefined && props.sidebarHidden !== config.Sidebar.isHidden) {
+    emit('update:sidebarHidden', config.Sidebar.isHidden)
+  }
+  if (props.sidebarNoSpace !== undefined && props.sidebarNoSpace !== config.SidebarNoSpace.active) {
+    emit('update:sidebarNoSpace', config.SidebarNoSpace.active)
+  }
+  if (
+    props.sidebarCollapsed !== undefined &&
+    props.sidebarCollapsed !== config.Sidebar.isCollapsed
+  ) {
+    emit('update:sidebarCollapsed', config.Sidebar.isCollapsed)
+  }
+  if (props.fullScreen !== undefined && props.fullScreen !== config.isFullScreen) {
+    emit('update:fullScreen', config.isFullScreen)
+  }
 }
 
 controlledKeys.forEach((key) => {
