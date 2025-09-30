@@ -28,6 +28,8 @@ const statusTexts = computed(() => ({
   fullScreen: config.isFullScreen ? '退出全屏' : '进入全屏',
 }))
 
+const maskVisible = computed(() => config.isMobile && config.Sidebar.currentWidth > 0)
+
 type ApplyOptions = {
   silent?: boolean
 }
@@ -62,12 +64,6 @@ const updateMainMargin = (margin: number | string) => {
   config.SidebarNoSpace.marginLeft = margin
 }
 
-const toggleMask = (show: boolean) => {
-  if (!layoutRef.value) return
-  const mask = layoutRef.value.querySelector('.mask')
-  mask?.classList.toggle('active', show)
-}
-
 const getSidebarWidth = () =>
   config.Sidebar.isCollapsed ? config.Sidebar.collapsedWidth : config.Sidebar.defaultWidth
 
@@ -77,14 +73,12 @@ const applySidebarHidden = (hidden: boolean, options: ApplyOptions = {}) => {
   updateSidebarWidth(hidden ? 0 : getSidebarWidth())
   config.Sidebar.isHidden = hidden
 
-  if (config.isMobile) {
-    toggleMask(!hidden)
-  } else {
-    toggleMask(false)
-  }
-
   if (changed && !options.silent) {
     emit('update:sidebarHidden', hidden)
+  }
+
+  if (changed) {
+    persistState()
   }
 }
 
@@ -96,6 +90,10 @@ const applySidebarNoSpace = (active: boolean, options: ApplyOptions = {}) => {
 
   if (changed && !options.silent) {
     emit('update:sidebarNoSpace', active)
+  }
+
+  if (changed) {
+    persistState()
   }
 }
 
@@ -112,12 +110,12 @@ const applySidebarCollapsed = (
   config.Sidebar.isCollapsed = collapsed
   updateSidebarWidth(config.Sidebar.isHidden ? 0 : getSidebarWidth())
 
-  if (config.isMobile && !config.Sidebar.isHidden) {
-    toggleMask(true)
-  }
-
   if (changed && !options.silent) {
     emit('update:sidebarCollapsed', collapsed)
+  }
+
+  if (changed) {
+    persistState()
   }
 }
 
@@ -137,14 +135,44 @@ const applyFullScreen = (full: boolean, options: ApplyOptions = {}) => {
   if (changed && !options.silent) {
     emit('update:fullScreen', full)
   }
+
+  if (changed) {
+    persistState()
+  }
 }
+
+const controlledDescriptors = {
+  sidebarHidden: {
+    apply: (value: boolean, options?: ApplyOptions) => applySidebarHidden(value, options),
+    current: () => config.Sidebar.isHidden,
+    event: 'update:sidebarHidden' as const,
+  },
+  sidebarNoSpace: {
+    apply: (value: boolean, options?: ApplyOptions) => applySidebarNoSpace(value, options),
+    current: () => config.SidebarNoSpace.active,
+    event: 'update:sidebarNoSpace' as const,
+  },
+  sidebarCollapsed: {
+    apply: (value: boolean, options?: ApplyOptions) => applySidebarCollapsed(value, options),
+    current: () => config.Sidebar.isCollapsed,
+    event: 'update:sidebarCollapsed' as const,
+  },
+  fullScreen: {
+    apply: (value: boolean, options?: ApplyOptions) => applyFullScreen(value, options),
+    current: () => config.isFullScreen,
+    event: 'update:fullScreen' as const,
+  },
+} as const
+
+type ControlledKey = keyof typeof controlledDescriptors
+
+const controlledKeys = Object.keys(controlledDescriptors) as ControlledKey[]
 
 const handleMobileTransition = (toMobile: boolean) => {
   if (toMobile) {
     applySidebarHidden(true)
     applySidebarNoSpace(true)
   } else {
-    toggleMask(false)
     applySidebarHidden(false)
     applySidebarNoSpace(config.SidebarNoSpace.active)
   }
@@ -187,7 +215,6 @@ const syncLayoutFromState = () => {
   updateSidebarWidth(config.Sidebar.currentWidth)
   updateNavHeight(config.Nav.topCurrentHeight)
   updateMainMargin(config.SidebarNoSpace.marginLeft)
-  toggleMask(config.isMobile && !config.Sidebar.isHidden)
 }
 
 const actions: LayoutActions = {
@@ -225,85 +252,30 @@ const loadPersistedState = (): LayoutStateOverrides | null => {
 
 const persistableSnapshot = computed(() => getPersistableLayoutState(config))
 
-const applyControlledProps = (silent = true) => {
-  if (props.sidebarHidden !== undefined) {
-    applySidebarHidden(props.sidebarHidden, { silent })
-  }
-
-  if (props.sidebarNoSpace !== undefined) {
-    applySidebarNoSpace(props.sidebarNoSpace, { silent })
-  }
-
-  if (props.sidebarCollapsed !== undefined) {
-    applySidebarCollapsed(props.sidebarCollapsed, { silent })
-  }
-
-  if (props.fullScreen !== undefined) {
-    applyFullScreen(props.fullScreen, { silent })
-  }
-}
-
 const syncControlledModelsFromState = () => {
-  if (props.sidebarHidden !== undefined && props.sidebarHidden !== config.Sidebar.isHidden) {
-    emit('update:sidebarHidden', config.Sidebar.isHidden)
-  }
+  controlledKeys.forEach((key) => {
+    const propValue = props[key]
+    if (propValue === undefined) return
 
-  if (props.sidebarNoSpace !== undefined && props.sidebarNoSpace !== config.SidebarNoSpace.active) {
-    emit('update:sidebarNoSpace', config.SidebarNoSpace.active)
-  }
-
-  if (props.sidebarCollapsed !== undefined && props.sidebarCollapsed !== config.Sidebar.isCollapsed) {
-    emit('update:sidebarCollapsed', config.Sidebar.isCollapsed)
-  }
-
-  if (props.fullScreen !== undefined && props.fullScreen !== config.isFullScreen) {
-    emit('update:fullScreen', config.isFullScreen)
-  }
+    const currentValue = controlledDescriptors[key].current()
+    if (propValue !== currentValue) {
+      emit(controlledDescriptors[key].event, currentValue)
+    }
+  })
 }
 
-watch(
-  () => props.sidebarHidden,
-  (value) => {
-    if (value === undefined) return
-    applySidebarHidden(value, { silent: true })
-  },
-  { immediate: true },
-)
+controlledKeys.forEach((key) => {
+  watch(
+    () => props[key],
+    (value) => {
+      if (value === undefined) return
+      controlledDescriptors[key].apply(value, { silent: true })
+    },
+    { immediate: true },
+  )
+})
 
-watch(
-  () => props.sidebarNoSpace,
-  (value) => {
-    if (value === undefined) return
-    applySidebarNoSpace(value, { silent: true })
-  },
-  { immediate: true },
-)
-
-watch(
-  () => props.sidebarCollapsed,
-  (value) => {
-    if (value === undefined) return
-    applySidebarCollapsed(value, { silent: true })
-  },
-  { immediate: true },
-)
-
-watch(
-  () => props.fullScreen,
-  (value) => {
-    if (value === undefined) return
-    applyFullScreen(value, { silent: true })
-  },
-  { immediate: true },
-)
-
-watch(
-  persistableSnapshot,
-  () => {
-    persistState()
-  },
-  { deep: true },
-)
+watch(persistableSnapshot, persistState, { deep: true })
 
 onMounted(() => {
   const persisted = loadPersistedState()
@@ -311,11 +283,11 @@ onMounted(() => {
     applyLayoutStatePatch(config, persisted)
   }
 
+  applyFullScreen(config.isFullScreen, { silent: true })
   syncLayoutFromState()
   checkMobile()
-  syncControlledModelsFromState()
-  applyControlledProps(true)
   syncLayoutFromState()
+  syncControlledModelsFromState()
   window.addEventListener('resize', checkMobile)
 
   hasHydrated.value = true
@@ -332,6 +304,7 @@ defineExpose({
   state: config,
   actions,
   statusTexts,
+  maskVisible,
 })
 
 defineOptions({ name: 'AppLayout' })
@@ -339,7 +312,7 @@ defineOptions({ name: 'AppLayout' })
 
 <template>
   <div class="Layout" ref="layoutRoot">
-    <div class="mask" @click="hideAside"></div>
+    <div class="mask" :class="{ active: maskVisible }" @click="hideAside"></div>
     <div v-if="hasControlsSlot" class="buttons">
       <slot name="controls" :actions="actions" :statuses="statusTexts"></slot>
     </div>
