@@ -1,4 +1,10 @@
 .Layout {
+  --aside-width: 244px;
+  --nav-height: 86px;
+  --nav-top-height: 50px;
+  --nav-top-border-opacity: 1;
+  --main-margin-left: var(--aside-width);
+
   .buttons {
     position: fixed;
     right: 10px;
@@ -21,8 +27,6 @@
       opacity 0.3s ease,
       visibility 0.3s ease;
   }
-  --aside-width: 244px;
-  --nav-height: 86px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -38,19 +42,19 @@
     transition: width 0.3s ease;
     z-index: 1000;
     border-right: 1px solid #eee;
-    background-color: #fff;
+    background-color: #ffffff8e;
   }
   .main {
     flex: 1;
-    margin-left: var(--aside-width);
+    margin-left: var(--main-margin-left);
     transition: margin-left 0.3s ease;
 
     .nav {
       height: var(--nav-height);
       position: fixed;
-      left: var(--aside-width);
+      left: var(--main-margin-left);
       transition: left 0.3s ease;
-      background-color: #fff;
+      background-color: #ffffffa1;
       top: 0;
       right: 0;
       border-bottom: 1px solid #eee;
@@ -59,12 +63,13 @@
       transition: all 0.3s ease;
 
       .top {
-        flex: 50;
-        border-bottom: 1px solid #eee;
+        height: var(--nav-top-height);
+        flex: none;
+        border-bottom: 1px solid rgba(238, 238, 238, var(--nav-top-border-opacity));
         transition: all 0.3s ease;
       }
       .bottom {
-        flex: 33;
+        flex: 1;
         transition: all 0.3s ease;
       }
     }
@@ -86,15 +91,6 @@
 .aside-collapse {
   --aside-width: 60px;
 }
-.hide-aside {
-  --aside-width: 0px;
-  .main {
-    margin-left: 0px;
-    .nav {
-      left: 0px;
-    }
-  }
-}
 .nav-collapse {
   --nav-height: 38px;
   .main {
@@ -106,6 +102,9 @@
       }
     }
   }
+}
+.column-layout {
+  --aside-width: 0px;
 }
 @media (max-width: 768px) {
   .Layout {
@@ -121,18 +120,5 @@
   }
   .aside-collapse {
     --aside-width: 0px;
-  }
-  .hide-aside {
-    --aside-width: 245px;
-    .mask {
-      opacity: 1;
-      visibility: visible;
-    }
-    .main {
-      margin-left: 0px;
-      .nav {
-        left: 0px;
-      }
-    }
   }
 }
